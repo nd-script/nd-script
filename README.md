@@ -23,7 +23,7 @@ ND-Script is a **high-performance**, domain-specific language (DSL) designed for
 - **💾 State Management**: Save and load simulation states
 - **🔄 Control Flow**: Loops, conditionals, and complex logic
 - **🎯 VS Code Integration**: Syntax highlighting and IntelliSense
-- **⚡ High Performance**: Outstanding execution speed (1.30ms average)
+- **⚡ High Performance**: Outstanding execution speed (1.43ms average)
 - **🧪 Production Ready**: 100% test success rate with comprehensive coverage
 
 ## 🚀 Quick Start
@@ -257,7 +257,7 @@ python -m pytest nds/tests/test_performance_optimizations.py -v
 
 | Component | Status | Coverage | Performance |
 |-----------|--------|----------|-------------|
-| **Core Language** | ✅ **Production Ready** | **100%** | 🔥 **1.30ms avg** |
+| **Core Language** | ✅ **Production Ready** | **100%** | 🔥 **1.43ms avg** |
 | **CLI Interface** | ✅ **Complete** | **100%** | ⚡ **Optimized** |
 | **Basic Commands** | ✅ **Complete** | **100%** | 🔥 **Outstanding** |
 | **Variables & Math** | ✅ **Complete** | **100%** | 🔥 **0.40ms avg** |
@@ -280,7 +280,7 @@ python -m pytest nds/tests/test_performance_optimizations.py -v
 - **✅ Interactive REPL mode** - Professional development environment
 - **✅ Command-line interface** - Production-ready CLI
 - **✅ Error handling and reporting** - Robust exception management
-- **✅ Performance optimization** - Outstanding execution speed (1.30ms avg)
+- **✅ Performance optimization** - Outstanding execution speed (1.43ms avg)
 - **✅ Comprehensive testing** - 100% test success rate
 
 ### 🚧 **In Development**
