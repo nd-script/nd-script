@@ -1,0 +1,24 @@
+# ND-Script Core Dependencies
+lark-parser>=1.1.8
+numpy>=1.21.0
+matplotlib>=3.5.0
+scipy>=1.7.0
+arabic-reshaper>=2.1.0
+python-bidi>=0.4.2
+
+# Development Dependencies
+pytest>=7.0.0
+pytest-cov>=4.0.0
+black>=22.0.0
+flake8>=5.0.0
+mypy>=0.991
+isort>=5.10.0
+
+# Documentation
+sphinx>=5.0.0
+sphinx-rtd-theme>=1.0.0
+myst-parser>=0.18.0
+
+# Optional: Enhanced visualization
+plotly>=5.0.0
+dash>=2.0.0

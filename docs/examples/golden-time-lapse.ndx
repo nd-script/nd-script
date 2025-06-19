@@ -1,0 +1,28 @@
+// Golden Ratio Time-lapse Simulation
+// محاكاة النسبة الذهبية عبر الزمن
+
+// Initialize with golden ratio parameters
+init size=161
+set irregularity=phi/10
+set gravity=1/phi
+set quantum_energy=phi*0.1
+
+// Variables for time-lapse
+steps = 100
+interval = 5
+
+// Time-lapse evolution
+for i in (1, steps): {
+    evolve 1
+
+    // Show progress every interval steps
+    if (i % interval == 0): {
+        show stats
+        show density
+        save "golden_frame.nds"
+    }
+}
+
+// Final analysis
+show analysis
+show plot

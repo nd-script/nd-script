@@ -1,0 +1,252 @@
+{
+  "project": {
+    "name": "ND-Script",
+    "description": "Domain-Specific Language for Quantum Fractal Universe Simulation",
+    "version": "1.0.0",
+    "language": "python",
+    "framework": "custom-dsl"
+  },
+  "agents": {
+    "architect": {
+      "role": "architect",
+      "name": "ND-Script Architect",
+      "description": "Designs language grammar, system architecture, and high-level specifications",
+      "specialization": [
+        "grammar-design",
+        "language-specification",
+        "system-architecture",
+        "api-design"
+      ],
+      "tools": [
+        "lark-parser",
+        "ebnf-validator",
+        "architecture-diagrams"
+      ],
+      "responsibilities": [
+        "Create formal grammar specifications",
+        "Design language syntax and semantics",
+        "Plan system architecture",
+        "Define API interfaces"
+      ]
+    },
+    "code": {
+      "role": "code",
+      "name": "ND-Script Developer",
+      "description": "Implements parser, interpreter, and core language features",
+      "specialization": [
+        "parser-implementation",
+        "interpreter-development",
+        "ast-design",
+        "runtime-systems"
+      ],
+      "tools": [
+        "python",
+        "lark-parser",
+        "pytest",
+        "mypy"
+      ],
+      "responsibilities": [
+        "Implement language parser using Lark",
+        "Build AST and interpreter",
+        "Integrate with quantum simulation engine",
+        "Develop CLI tools"
+      ]
+    },
+    "qa": {
+      "role": "qa",
+      "name": "ND-Script Quality Assurance",
+      "description": "Creates comprehensive test suites and ensures code quality",
+      "specialization": [
+        "test-automation",
+        "coverage-analysis",
+        "performance-testing",
+        "integration-testing"
+      ],
+      "tools": [
+        "pytest",
+        "coverage.py",
+        "black",
+        "flake8",
+        "mypy"
+      ],
+      "responsibilities": [
+        "Write unit and integration tests",
+        "Ensure >90% code coverage",
+        "Performance benchmarking",
+        "Code quality enforcement"
+      ]
+    },
+    "docs": {
+      "role": "docs",
+      "name": "ND-Script Documentation",
+      "description": "Creates comprehensive documentation and examples",
+      "specialization": [
+        "technical-writing",
+        "example-creation",
+        "tutorial-development",
+        "api-documentation"
+      ],
+      "tools": [
+        "markdown",
+        "sphinx",
+        "mkdocs",
+        "mermaid"
+      ],
+      "responsibilities": [
+        "Write language specification",
+        "Create user tutorials",
+        "Generate API documentation",
+        "Develop example scripts"
+      ]
+    },
+    "vscode": {
+      "role": "custom",
+      "name": "VS Code Extension Developer",
+      "description": "Develops VS Code extension with syntax highlighting and language server",
+      "specialization": [
+        "vscode-extensions",
+        "language-servers",
+        "syntax-highlighting",
+        "intellisense"
+      ],
+      "tools": [
+        "typescript",
+        "vscode-api",
+        "textmate-grammars",
+        "language-server-protocol"
+      ],
+      "responsibilities": [
+        "Create VS Code extension",
+        "Implement syntax highlighting",
+        "Build language server",
+        "Add IntelliSense support"
+      ]
+    },
+    "nds-tools": {
+      "role": "custom",
+      "name": "ND-Script Development Tools",
+      "description": "Custom MCP tools for ND-Script development and optimization",
+      "specialization": [
+        "custom-tooling",
+        "code-generation",
+        "optimization",
+        "debugging-tools"
+      ],
+      "tools": [
+        "mcp-framework",
+        "ast-manipulation",
+        "code-analysis",
+        "performance-profiling"
+      ],
+      "responsibilities": [
+        "Create syntax validation tools",
+        "Build script optimizers",
+        "Develop debugging utilities",
+        "Generate boilerplate code"
+      ]
+    }
+  },
+  "workflows": {
+    "grammar-design": {
+      "agent": "architect",
+      "steps": [
+        "Analyze requirements",
+        "Design EBNF grammar",
+        "Create Lark grammar file",
+        "Validate with examples",
+        "Document syntax rules"
+      ]
+    },
+    "parser-implementation": {
+      "agent": "code",
+      "dependencies": ["grammar-design"],
+      "steps": [
+        "Implement AST nodes",
+        "Create parser using Lark",
+        "Build interpreter engine",
+        "Add error handling",
+        "Test with examples"
+      ]
+    },
+    "testing-suite": {
+      "agent": "qa",
+      "dependencies": ["parser-implementation"],
+      "steps": [
+        "Write unit tests",
+        "Create integration tests",
+        "Set up CI/CD pipeline",
+        "Generate coverage reports",
+        "Performance benchmarking"
+      ]
+    },
+    "vscode-extension": {
+      "agent": "vscode",
+      "dependencies": ["grammar-design"],
+      "steps": [
+        "Create extension structure",
+        "Implement syntax highlighting",
+        "Build language server",
+        "Add IntelliSense",
+        "Package extension"
+      ]
+    },
+    "documentation": {
+      "agent": "docs",
+      "dependencies": ["parser-implementation"],
+      "steps": [
+        "Write language specification",
+        "Create user tutorials",
+        "Generate API docs",
+        "Develop examples",
+        "Create video tutorials"
+      ]
+    }
+  },
+  "configuration": {
+    "python": {
+      "version": ">=3.8",
+      "dependencies": [
+        "lark-parser>=1.1.8",
+        "numpy>=1.21.0",
+        "matplotlib>=3.5.0",
+        "scipy>=1.7.0",
+        "arabic-reshaper>=2.1.0",
+        "python-bidi>=0.4.2"
+      ],
+      "dev_dependencies": [
+        "pytest>=7.0.0",
+        "pytest-cov>=4.0.0",
+        "black>=22.0.0",
+        "flake8>=5.0.0",
+        "mypy>=0.991"
+      ]
+    },
+    "vscode": {
+      "typescript_version": ">=4.8.0",
+      "dependencies": [
+        "@types/vscode",
+        "vscode-languageclient",
+        "vscode-languageserver"
+      ]
+    },
+    "testing": {
+      "coverage_threshold": 90,
+      "test_directories": ["nds/tests"],
+      "exclude_patterns": ["*/tests/*", "*/examples/*"]
+    }
+  },
+  "integration": {
+    "existing_codebase": {
+      "main_file": "nexus_dimension.py",
+      "classes": [
+        "QuantumFractalUniverse",
+        "NDScriptInterpreter"
+      ],
+      "functions": [
+        "create_fractal_space",
+        "quantum_levy_flight",
+        "generate_fractal_matter"
+      ]
+    }
+  }
+}

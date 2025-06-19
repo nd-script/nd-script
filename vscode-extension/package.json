@@ -1,0 +1,139 @@
+{
+  "name": "nd-script",
+  "displayName": "ND-Script Language Support",
+  "description": "Complete language support for ND-Script v2.0.0 - The World's First Production-Ready Bilingual Programming Language",
+  "version": "2.0.0",
+  "publisher": "nd-script-team",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Snippets",
+    "Other"
+  ],
+  "keywords": [
+    "nd-script",
+    "bilingual",
+    "arabic",
+    "english",
+    "programming-language",
+    "quantum",
+    "fractal",
+    "simulation",
+    "dsl",
+    "type-system",
+    "functions",
+    "imports"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "ndscript",
+        "aliases": [
+          "ND-Script",
+          "ndscript"
+        ],
+        "extensions": [
+          ".ndx",
+          ".nds"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "ndscript",
+        "scopeName": "source.ndscript",
+        "path": "./syntaxes/nds.tmLanguage.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "ndscript.run",
+        "title": "Run ND-Script",
+        "category": "ND-Script"
+      },
+      {
+        "command": "ndscript.check",
+        "title": "Check Syntax",
+        "category": "ND-Script"
+      },
+      {
+        "command": "ndscript.repl",
+        "title": "Start REPL",
+        "category": "ND-Script"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "ndscript.run",
+        "key": "f5",
+        "when": "editorTextFocus && resourceExtname == .ndx"
+      },
+      {
+        "command": "ndscript.check",
+        "key": "ctrl+shift+c",
+        "when": "editorTextFocus && resourceExtname == .ndx"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "when": "resourceExtname == .ndx",
+          "command": "ndscript.run",
+          "group": "navigation"
+        },
+        {
+          "when": "resourceExtname == .ndx",
+          "command": "ndscript.check",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "type": "object",
+      "title": "ND-Script Configuration",
+      "properties": {
+        "ndscript.pythonPath": {
+          "type": "string",
+          "default": "python",
+          "description": "Path to Python interpreter"
+        },
+        "ndscript.enableLinting": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable syntax checking"
+        },
+        "ndscript.maxNumberOfProblems": {
+          "type": "number",
+          "default": 100,
+          "description": "Maximum number of problems to report"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.74.0",
+    "@types/node": "16.x",
+    "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^8.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nd-script/nd-script.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nd-script/nd-script/issues"
+  },
+  "homepage": "https://github.com/nd-script/nd-script#readme",
+  "license": "MIT"
+}

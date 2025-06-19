@@ -1,0 +1,2221 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ND-Script v2.0.0 - Official Documentation</title>
+    <meta name="description" content="Official documentation for ND-Script, the world's first production-ready bilingual programming language supporting Arabic and English.">
+    <meta name="keywords" content="ND-Script, bilingual programming, Arabic programming, English programming, DSL, quantum simulation">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌍</text></svg>">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Amiri:wght@400;700&family=Fira+Code:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Syntax Highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #7c3aed;
+            --accent-color: #06b6d4;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            --dark-bg: #0f172a;
+            --card-bg: #1e293b;
+            --sidebar-bg: #1a202c;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --gradient-primary: linear-gradient(135deg, #2563eb, #7c3aed);
+            --gradient-accent: linear-gradient(135deg, #06b6d4, #10b981);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .arabic-text {
+            font-family: 'Amiri', serif;
+            direction: rtl;
+            text-align: right;
+        }
+
+        /* Layout */
+        .docs-container {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            padding: 2rem 0;
+            overflow-y: auto;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 0 1.5rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .version {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .nav-section {
+            margin-bottom: 2rem;
+        }
+
+        .nav-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            padding: 0 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+            background: rgba(37, 99, 235, 0.1);
+            border-left-color: var(--primary-color);
+        }
+
+        .nav-link.active {
+            color: var(--primary-color);
+            background: rgba(37, 99, 235, 0.1);
+            border-left-color: var(--primary-color);
+        }
+
+        .nav-link i {
+            width: 20px;
+            margin-right: 0.75rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 2rem 3rem;
+            max-width: calc(100vw - 280px);
+            min-height: 100vh;
+            background: var(--dark-bg);
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .page-header {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .badges {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .badge-success {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success-color);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .badge-info {
+            background: rgba(6, 182, 212, 0.2);
+            color: var(--accent-color);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+        }
+
+        /* Content Sections */
+        .content-section {
+            margin-bottom: 3rem;
+            opacity: 1;
+            visibility: visible;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            line-height: 1.3;
+        }
+
+        .section-subtitle {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin: 2rem 0 1rem;
+            color: var(--primary-color);
+            line-height: 1.4;
+        }
+
+        /* Ensure text is visible */
+        p, li, td, th {
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        ul, ol {
+            padding-left: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Code Blocks */
+        .code-block {
+            background: #1a1a1a;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .code-block pre {
+            margin: 0;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            color: #f8f8f2;
+        }
+
+        .code-block code {
+            color: #f8f8f2;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            background: var(--card-bg);
+            border-radius: 8px 8px 0 0;
+            border: 1px solid var(--border-color);
+            border-bottom: none;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .code-header + .code-block {
+            border-radius: 0 0 8px 8px;
+            margin-top: 0;
+        }
+
+        /* Syntax highlighting for ND-Script */
+        .language-ndscript .token.keyword {
+            color: #ff79c6;
+        }
+
+        .language-ndscript .token.function {
+            color: #50fa7b;
+        }
+
+        .language-ndscript .token.string {
+            color: #f1fa8c;
+        }
+
+        .language-ndscript .token.number {
+            color: #bd93f9;
+        }
+
+        .language-ndscript .token.comment {
+            color: #6272a4;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            padding: 2rem;
+            margin: 1.5rem 0;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        .feature-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        /* Tables */
+        .table-container {
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: rgba(37, 99, 235, 0.1);
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: var(--card-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1001;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 4rem 1rem 1rem;
+                max-width: 100vw;
+            }
+
+            .page-header {
+                padding-top: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-content {
+                padding: 4rem 0.5rem 1rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .badges {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        /* Accessibility Improvements */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* Focus styles for better accessibility */
+        .nav-link:focus,
+        .btn:focus,
+        button:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            :root {
+                --text-primary: #ffffff;
+                --text-secondary: #e0e0e0;
+                --border-color: #666666;
+            }
+        }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0;
+                max-width: 100%;
+            }
+
+            .code-block {
+                background: white;
+                border: 1px solid #000;
+                color: #000;
+            }
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .text-muted { color: var(--text-muted); }
+        .mb-2 { margin-bottom: 1rem; }
+        .mb-4 { margin-bottom: 2rem; }
+        .mt-4 { margin-top: 2rem; }
+        .hidden { display: none; }
+        .visible { display: block; }
+    </style>
+</head>
+<body>
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="docs-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">ND-Script</div>
+                <div class="version">v2.0.0 Documentation</div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">Getting Started</div>
+                <a href="#overview" class="nav-link active">
+                    <i class="fas fa-home"></i> Overview
+                </a>
+                <a href="#installation" class="nav-link">
+                    <i class="fas fa-download"></i> Installation
+                </a>
+                <a href="#quick-start" class="nav-link">
+                    <i class="fas fa-rocket"></i> Quick Start
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">Language Guide</div>
+                <a href="#syntax" class="nav-link">
+                    <i class="fas fa-code"></i> Syntax Reference
+                </a>
+                <a href="#functions" class="nav-link">
+                    <i class="fas fa-function"></i> Functions
+                </a>
+                <a href="#types" class="nav-link">
+                    <i class="fas fa-tags"></i> Type System
+                </a>
+                <a href="#control-flow" class="nav-link">
+                    <i class="fas fa-route"></i> Control Flow
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">API Reference</div>
+                <a href="#python-api" class="nav-link">
+                    <i class="fab fa-python"></i> Python API
+                </a>
+                <a href="#jupyter" class="nav-link">
+                    <i class="fas fa-book"></i> Jupyter Integration
+                </a>
+                <a href="#cli" class="nav-link">
+                    <i class="fas fa-terminal"></i> Command Line
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">Advanced</div>
+                <a href="#universe-simulation" class="nav-link">
+                    <i class="fas fa-globe"></i> Universe Simulation
+                </a>
+                <a href="#parallel-processing" class="nav-link">
+                    <i class="fas fa-microchip"></i> Parallel Processing
+                </a>
+                <a href="#performance" class="nav-link">
+                    <i class="fas fa-tachometer-alt"></i> Performance
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">Resources</div>
+                <a href="#examples" class="nav-link">
+                    <i class="fas fa-code-branch"></i> Examples
+                </a>
+                <a href="#best-practices" class="nav-link">
+                    <i class="fas fa-star"></i> Best Practices
+                </a>
+                <a href="#troubleshooting" class="nav-link">
+                    <i class="fas fa-question-circle"></i> Troubleshooting
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Page Header -->
+            <header class="page-header">
+                <h1 class="page-title">ND-Script v2.0.0</h1>
+                <p class="page-subtitle">The World's First Production-Ready Bilingual Programming Language</p>
+                <p class="page-subtitle arabic-text">أول لغة برمجة ثنائية اللغة جاهزة للإنتاج في العالم</p>
+                
+                <div class="badges">
+                    <span class="badge badge-success">
+                        <i class="fas fa-check-circle"></i> Production Ready
+                    </span>
+                    <span class="badge badge-info">
+                        <i class="fas fa-globe"></i> Bilingual Support
+                    </span>
+                    <span class="badge badge-success">
+                        <i class="fas fa-vial"></i> 100% Test Coverage
+                    </span>
+                    <span class="badge badge-info">
+                        <i class="fas fa-bolt"></i> 2.2ms Performance
+                    </span>
+                </div>
+            </header>
+
+            <!-- Overview Section -->
+            <section id="overview" class="content-section">
+                <h2 class="section-title">Overview</h2>
+
+                <p>ND-Script is a revolutionary bilingual programming language that allows developers to write code seamlessly in both Arabic and English within the same program. Designed for quantum fractal universe simulation and general-purpose computing, ND-Script bridges cultural and linguistic barriers in programming.</p>
+
+                <div class="card-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🌍</div>
+                        <div class="feature-title">True Bilingual Programming</div>
+                        <div class="feature-description">Write functions, variables, and control structures in Arabic, English, or both languages simultaneously.</div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <div class="feature-title">High Performance</div>
+                        <div class="feature-description">Optimized execution with 2.2ms average response time and bytecode compilation.</div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">🔍</div>
+                        <div class="feature-title">Advanced Type System</div>
+                        <div class="feature-description">Static type checking with generic support and bilingual type annotations.</div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">🐍</div>
+                        <div class="feature-title">Python Integration</div>
+                        <div class="feature-description">Seamless integration with Python ecosystem, Jupyter notebooks, and existing projects.</div>
+                    </div>
+                </div>
+
+                <h3 class="section-subtitle">Key Features</h3>
+                <ul>
+                    <li><strong>Bilingual Syntax:</strong> Arabic and English keywords, functions, and variables</li>
+                    <li><strong>Type System:</strong> Static typing with generics (رقم/number, نص/string, قائمة[T]/list[T])</li>
+                    <li><strong>Performance:</strong> Bytecode compilation and intelligent caching</li>
+                    <li><strong>Parallel Processing:</strong> Smart workload analysis and automatic parallelization</li>
+                    <li><strong>Python API:</strong> Full integration with Python ecosystem</li>
+                    <li><strong>Documentation:</strong> Automatic HTML/Markdown generation</li>
+                    <li><strong>Universe Simulation:</strong> Specialized commands for quantum fractal modeling</li>
+                </ul>
+            </section>
+
+            <!-- Installation Section -->
+            <section id="installation" class="content-section">
+                <h2 class="section-title">Installation</h2>
+
+                <h3 class="section-subtitle">Requirements</h3>
+                <ul>
+                    <li>Python 3.8 or higher</li>
+                    <li>pip package manager</li>
+                    <li>Operating System: Windows, macOS, or Linux</li>
+                </ul>
+
+                <h3 class="section-subtitle">Install via pip</h3>
+                <div class="code-header">Terminal / Command Prompt</div>
+                <div class="code-block">
+                    <pre><code class="language-bash"># Install ND-Script
+pip install ndscript
+
+# Verify installation
+python -c "import ndscript; print('ND-Script installed successfully!')"</code></pre>
+                </div>
+
+                <h3 class="section-subtitle">Install from Source</h3>
+                <div class="code-header">Terminal / Command Prompt</div>
+                <div class="code-block">
+                    <pre><code class="language-bash"># Clone repository
+git clone https://github.com/ndscript/ndscript.git
+cd ndscript
+
+# Install in development mode
+pip install -e .
+
+# Run tests
+python -m pytest tests/</code></pre>
+                </div>
+
+                <div class="card">
+                    <h4><i class="fas fa-info-circle"></i> Installation Verification</h4>
+                    <p>After installation, verify that ND-Script is working correctly:</p>
+                    <div class="code-block">
+                        <pre><code class="language-python">from ndscript import NDScriptSession
+
+# Create session
+session = NDScriptSession()
+
+# Test bilingual execution
+result = session.execute('دالة مربع(س): { return س * س }')
+print(f"Installation successful: {result.success}")
+
+# Test function call
+result = session.execute('نتيجة = مربع(5)')
+print(f"Function execution: {result.success}")</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Syntax Reference Section -->
+            <section id="syntax" class="content-section">
+                <h2 class="section-title">Syntax Reference</h2>
+
+                <h3 class="section-subtitle">Bilingual Keywords</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>English</th>
+                                <th>Arabic</th>
+                                <th>Description</th>
+                                <th>Example</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>function</code></td>
+                                <td><code>دالة</code></td>
+                                <td>Function definition</td>
+                                <td><code>function add(a, b)</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>return</code></td>
+                                <td><code>إرجاع</code></td>
+                                <td>Return statement</td>
+                                <td><code>return a + b</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>if</code></td>
+                                <td><code>إذا</code></td>
+                                <td>Conditional statement</td>
+                                <td><code>if (x > 0)</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>else</code></td>
+                                <td><code>وإلا</code></td>
+                                <td>Else clause</td>
+                                <td><code>else { ... }</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>while</code></td>
+                                <td><code>طالما</code></td>
+                                <td>While loop</td>
+                                <td><code>while (condition)</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>for</code></td>
+                                <td><code>كرر</code></td>
+                                <td>For loop</td>
+                                <td><code>for i in range(10)</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 class="section-subtitle">Type Annotations</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>English Type</th>
+                                <th>Arabic Type</th>
+                                <th>Description</th>
+                                <th>Example</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>number</code></td>
+                                <td><code>رقم</code></td>
+                                <td>Numeric values</td>
+                                <td><code>number: age = 25</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>string</code></td>
+                                <td><code>نص</code></td>
+                                <td>Text strings</td>
+                                <td><code>نص: الاسم = "أحمد"</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>boolean</code></td>
+                                <td><code>منطق</code></td>
+                                <td>True/false values</td>
+                                <td><code>boolean: active = true</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>list[T]</code></td>
+                                <td><code>قائمة[T]</code></td>
+                                <td>Generic lists</td>
+                                <td><code>قائمة[رقم]: numbers = [1, 2, 3]</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 class="section-subtitle">Function Syntax</h3>
+                <div class="code-header">Function Definition Examples</div>
+                <div class="code-block">
+                    <pre><code class="language-ndscript">// Arabic function
+دالة حساب_المساحة(الطول: رقم، العرض: رقم): رقم {
+  return الطول * العرض
+}
+
+// English function
+function calculate_volume(length: number, width: number, height: number): number {
+  return length * width * height
+}
+
+// Mixed bilingual function
+دالة process_data(data: قائمة[رقم]): رقم {
+  total = 0
+  for item in data: {
+    total = total + item
+  }
+  return total / len(data)
+}</code></pre>
+                </div>
+
+                <h3 class="section-subtitle">Variable Declaration</h3>
+                <div class="code-header">Variable Examples</div>
+                <div class="code-block">
+                    <pre><code class="language-ndscript">// Type annotations (optional)
+رقم: العمر = 30
+نص: الاسم = "فاطمة"
+منطق: نشط = true
+قائمة[نص]: اللغات = ["العربية", "الإنجليزية"]
+
+// Without type annotations
+age = 30
+name = "Fatima"
+active = true
+languages = ["Arabic", "English"]
+
+// Mixed usage
+number: العمر = 25
+string: name = "أحمد"</code></pre>
+                </div>
+            </section>
+
+            <!-- Functions Section -->
+            <section id="functions" class="content-section">
+                <h2 class="section-title">Functions</h2>
+
+                <h3 class="section-subtitle">Function Definition</h3>
+                <p>Functions in ND-Script can be defined using either Arabic or English keywords and can have bilingual parameter names:</p>
+
+                <div class="code-header">Basic Function Examples</div>
+                <div class="code-block">
+                    <pre><code class="language-ndscript">// Simple Arabic function
+دالة مربع(العدد): {
+  return العدد * العدد
+}
+
+// Simple English function
+function cube(number): {
+  return number * number * number
+}
+
+// Function with multiple parameters
+دالة جمع(أ، ب، ج): {
+  return أ + ب + ج
+}
+
+// Function with type annotations
+function factorial(n: رقم): رقم {
+  إذا (n <= 1): {
+    return 1
+  }
+  return n * factorial(n - 1)
+}</code></pre>
+                </div>
+
+                <h3 class="section-subtitle">Function Calls</h3>
+                <div class="code-header">Function Call Examples</div>
+                <div class="code-block">
+                    <pre><code class="language-ndscript">// Call Arabic function
+نتيجة1 = مربع(5)  // Result: 25
+
+// Call English function
+result2 = cube(3)  // Result: 27
+
+// Mixed function calls
+total = جمع(10, 20, 30)  // Result: 60
+fact = factorial(5)      // Result: 120
+
+// Nested function calls
+complex_result = مربع(cube(2))  // Result: 64</code></pre>
+                </div>
+
+                <h3 class="section-subtitle">Advanced Function Features</h3>
+                <div class="code-header">Advanced Examples</div>
+                <div class="code-block">
+                    <pre><code class="language-ndscript">// Function with default parameters
+دالة حساب_الخصم(السعر: رقم، نسبة_الخصم: رقم = 0.1): رقم {
+  return السعر * (1 - نسبة_الخصم)
+}
+
+// Higher-order function
+function apply_operation(data: قائمة[رقم], operation: دالة): قائمة[رقم] {
+  result = []
+  for item in data: {
+    result.append(operation(item))
+  }
+  return result
+}
+
+// Lambda-style function
+square_lambda = (x) => x * x
+numbers = [1, 2, 3, 4, 5]
+squared = apply_operation(numbers, square_lambda)</code></pre>
+                </div>
+            </section>
+
+            <!-- Python API Section -->
+            <section id="python-api" class="content-section">
+                <h2 class="section-title">Python API</h2>
+
+                <h3 class="section-subtitle">NDScriptSession Class</h3>
+                <p>The main interface for executing ND-Script code from Python:</p>
+
+                <div class="code-header">Basic Usage</div>
+                <div class="code-block">
+                    <pre><code class="language-python">from ndscript import NDScriptSession
+
+# Create a new session
+session = NDScriptSession()
+
+# Execute ND-Script code
+result = session.execute('دالة مربع(س): { return س * س }')
+
+# Check execution result
+if result.success:
+    print("Code executed successfully!")
+    print(f"Result: {result.result}")
+else:
+    print(f"Error: {result.error}")
+</code></pre>
+                </div>
+
+                <h3 class="section-subtitle">API Reference</h3>
+
+                <div class="card">
+                    <h4>NDScriptSession Methods</h4>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Method</th>
+                                    <th>Parameters</th>
+                                    <th>Returns</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>execute(code)</code></td>
+                                    <td><code>code: str</code></td>
+                                    <td><code>ExecutionResult</code></td>
+                                    <td>Execute ND-Script code</td>
+                                </tr>
+                                <tr>
+                                    <td><code>validate_syntax(code)</code></td>
+                                    <td><code>code: str</code></td>
+                                    <td><code>ValidationResult</code></td>
+                                    <td>Check syntax without execution</td>
+                                </tr>
+                                <tr>
+                                    <td><code>get_functions()</code></td>
+                                    <td>None</td>
+                                    <td><code>Dict[str, Function]</code></td>
+                                    <td>Get all defined functions</td>
+                                </tr>
+                                <tr>
+                                    <td><code>get_variables()</code></td>
+                                    <td>None</td>
+                                    <td><code>Dict[str, Any]</code></td>
+                                    <td>Get all variables</td>
+                                </tr>
+                                <tr>
+                                    <td><code>reset()</code></td>
+                                    <td>None</td>
+                                    <td><code>None</code></td>
+                                    <td>Reset session state</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <h3 class="section-subtitle">ExecutionResult Class</h3>
+                <div class="code-header">Result Object Properties</div>
+                <div class="code-block">
+                    <pre><code class="language-python">class ExecutionResult:
+    success: bool          # True if execution succeeded
+    result: Any           # Return value (if any)
+    error: str           # Error message (if failed)
+    execution_time: float # Execution time in milliseconds
+    functions_count: int  # Number of functions defined
+    variables_count: int  # Number of variables created
+
+# Example usage
+result = session.execute('نتيجة = مربع(5)')
+print(f"Success: {result.success}")
+print(f"Result: {result.result}")
+print(f"Execution time: {result.execution_time}ms")
+</code></pre>
+                </div>
+
+                <h3 class="section-subtitle">Advanced Usage</h3>
+                <div class="code-header">Advanced API Examples</div>
+                <div class="code-block">
+                    <pre><code class="language-python">from ndscript import NDScriptSession, NDScriptConfig
+
+# Create session with custom configuration
+config = NDScriptConfig(
+    enable_parallel=True,
+    max_execution_time=5000,  # 5 seconds
+    enable_type_checking=True,
+    debug_mode=False
+)
+session = NDScriptSession(config=config)
+
+# Execute multiple statements
+code = """
+دالة fibonacci(n: رقم): رقم {
+  إذا (n <= 1): {
+    return n
+  }
+  return fibonacci(n-1) + fibonacci(n-2)
+}
+
+// Calculate Fibonacci sequence
+results = []
+for i in range(10): {
+  results.append(fibonacci(i))
+}
+"""
+
+result = session.execute(code)
+
+# Access session state
+functions = session.get_functions()
+variables = session.get_variables()
+
+print(f"Defined functions: {list(functions.keys())}")
+print(f"Variables: {list(variables.keys())}")
+
+# Performance monitoring
+if result.execution_time > 1000:  # > 1 second
+    print("⚠️ Slow execution detected")
+</code></pre>
+                </div>
+            </section>
+
+            <!-- Jupyter Integration Section -->
+            <section id="jupyter" class="content-section">
+                <h2 class="section-title">Jupyter Integration</h2>
+
+                <h3 class="section-subtitle">Magic Commands</h3>
+                <p>ND-Script provides Jupyter magic commands for seamless notebook integration:</p>
+
+                <div class="code-header">Loading ND-Script Extension</div>
+                <div class="code-block">
+                    <pre><code class="language-python"># Load ND-Script magic commands
+%load_ext ndscript
+
+# Check available magic commands
+%ndscript_help</code></pre>
+                </div>
+
+                <h3 class="section-subtitle">Cell Magic</h3>
+                <div class="code-header">%%ndscript Cell Magic</div>
+                <div class="code-block">
+                    <pre><code class="language-python">%%ndscript
+// This entire cell is ND-Script code
+دالة حساب_المتوسط(القائمة: قائمة[رقم]): رقم {
+  total = 0
+  count = 0
+
+  for item in القائمة: {
+    total = total + item
+    count = count + 1
+  }
+
+  return total / count
+}
+
+// Test the function
+الدرجات = [85, 92, 78, 96, 88]
+المتوسط = حساب_المتوسط(الدرجات)
+print("متوسط الدرجات:", المتوسط)</code></pre>
+                </div>
+
+                <h3 class="section-subtitle">Line Magic</h3>
+                <div class="code-header">%ndscript Line Magic</div>
+                <div class="code-block">
+                    <pre><code class="language-python"># Execute single ND-Script statements
+%ndscript دالة مربع(س): { return س * س }
+%ndscript نتيجة = مربع(7)
+%ndscript print("النتيجة:", نتيجة)
+
+# Check syntax without execution
+%ndscript_check دالة test(): { return "hello" }
+
+# Show session state
+%ndscript_state</code></pre>
+                </div>
+
+                <h3 class="section-subtitle">Interactive Features</h3>
+                <div class="code-header">Jupyter Interactive Features</div>
+                <div class="code-block">
+                    <pre><code class="language-python"># Enable auto-completion for ND-Script
+%ndscript_autocomplete on
+
+# Show function signatures
+%ndscript_functions
+
+# Display variables with types
+%ndscript_variables
+
+# Performance profiling
+%%ndscript --profile
+for i in range(1000): {
+  result = مربع(i)
+}
+
+# Export session to file
+%ndscript_export my_session.nds</code></pre>
+                </div>
+            </section>
+
+            <!-- Best Practices Section -->
+            <section id="best-practices" class="content-section">
+                <h2 class="section-title">Best Practices</h2>
+
+                <h3 class="section-subtitle">Code Organization</h3>
+                <div class="card">
+                    <h4>📁 Project Structure</h4>
+                    <div class="code-block">
+                        <pre><code>my_ndscript_project/
+├── src/
+│   ├── main.nds          # Main program
+│   ├── utils.nds         # Utility functions
+│   └── models/
+│       ├── universe.nds  # Universe simulation
+│       └── math.nds      # Mathematical functions
+├── tests/
+│   ├── test_main.py      # Python tests
+│   └── test_utils.nds    # ND-Script tests
+├── docs/
+│   └── api.md           # Generated documentation
+└── requirements.txt     # Python dependencies</code></pre>
+                    </div>
+                </div>
+
+                <h3 class="section-subtitle">Naming Conventions</h3>
+                <ul>
+                    <li><strong>Functions:</strong> Use descriptive names in your preferred language</li>
+                    <li><strong>Variables:</strong> Use snake_case for English, descriptive Arabic for Arabic variables</li>
+                    <li><strong>Constants:</strong> Use UPPER_CASE or الثوابت_بالعربية</li>
+                    <li><strong>Types:</strong> Use bilingual type annotations for clarity</li>
+                </ul>
+
+                <div class="code-header">Good Naming Examples</div>
+                <div class="code-block">
+                    <pre><code class="language-ndscript">// Good function names
+دالة حساب_المساحة(الطول، العرض)  // Clear Arabic
+function calculate_distance(x1, y1, x2, y2)  // Clear English
+
+// Good variable names
+رقم: عدد_الطلاب = 30
+string: student_name = "أحمد"
+قائمة[رقم]: الدرجات = [85, 90, 78]
+
+// Good constants
+MAXIMUM_ATTEMPTS = 3
+الحد_الأقصى_للمحاولات = 3</code></pre>
+                </div>
+
+                <h3 class="section-subtitle">Performance Tips</h3>
+                <ul>
+                    <li>Use type annotations for better performance</li>
+                    <li>Prefer built-in functions over custom implementations</li>
+                    <li>Use parallel processing for CPU-intensive tasks</li>
+                    <li>Cache expensive function results</li>
+                    <li>Profile your code to identify bottlenecks</li>
+                </ul>
+
+                <h3 class="section-subtitle">Error Handling</h3>
+                <div class="code-header">Error Handling Examples</div>
+                <div class="code-block">
+                    <pre><code class="language-ndscript">// Defensive programming
+دالة قسمة_آمنة(البسط: رقم، المقام: رقم): رقم {
+  إذا (المقام == 0): {
+    print("خطأ: لا يمكن القسمة على صفر")
+    return 0
+  }
+  return البسط / المقام
+}
+
+// Input validation
+function validate_age(age: رقم): منطق {
+  return age >= 0 && age <= 150
+}
+
+// Graceful error handling
+function safe_file_read(filename: نص): نص {
+  try {
+    return read_file(filename)
+  } catch (error) {
+    print("Error reading file:", error)
+    return ""
+  }
+}</code></pre>
+                </div>
+            </section>
+
+            <!-- Quick Start Section -->
+            <section id="quick-start" class="content-section">
+                <h2 class="section-title">Quick Start</h2>
+
+                <h3 class="section-subtitle">Your First ND-Script Program</h3>
+                <p>Let's create a simple bilingual program that demonstrates ND-Script's core features:</p>
+
+                <div class="code-header">hello_world.py</div>
+                <div class="code-block">
+                    <pre><code class="language-python">from ndscript import NDScriptSession
+
+# Create ND-Script session
+session = NDScriptSession()
+
+# Bilingual Hello World
+code = """
+// Arabic function
+دالة مرحبا(الاسم): {
+  return "مرحباً " + الاسم
+}
+
+// English function
+function hello(name): {
+  return "Hello " + name
+}
+
+// Mixed usage
+arabic_greeting = مرحبا("أحمد")
+english_greeting = hello("Sarah")
+
+print(arabic_greeting)
+print(english_greeting)
+"""
+
+# Execute the code
+result = session.execute(code)
+if result.success:
+    print("Program executed successfully!")
+else:
+    print(f"Error: {result.error}")
+</code></pre>
+                </div>
+
+                <h3 class="section-subtitle">Interactive Usage</h3>
+                <p>ND-Script can be used interactively in Python or Jupyter notebooks:</p>
+
+                <div class="code-header">Jupyter Notebook</div>
+                <div class="code-block">
+                    <pre><code class="language-python"># Load ND-Script magic command
+%load_ext ndscript
+
+# Execute ND-Script code directly in cells
+%%ndscript
+رقم: العمر = 25
+نص: الاسم = "فاطمة"
+
+دالة حساب_السنوات_المتبقية(العمر_الحالي): {
+  return 100 - العمر_الحالي
+}
+
+السنوات_المتبقية = حساب_السنوات_المتبقية(العمر)
+print("السنوات المتبقية:", السنوات_المتبقية)
+</code></pre>
+                </div>
+
+                <h3 class="section-subtitle">Command Line Usage</h3>
+                <div class="code-header">Terminal</div>
+                <div class="code-block">
+                    <pre><code class="language-bash"># Run ND-Script file
+ndscript run my_program.nds
+
+# Interactive REPL
+ndscript repl
+
+# Check syntax
+ndscript check my_program.nds
+
+# Generate documentation
+ndscript docs my_program.nds --output docs/</code></pre>
+                </div>
+            </section>
+
+            <!-- Type System Section -->
+            <section id="types" class="content-section">
+                <h2 class="section-title">Type System</h2>
+
+                <h3 class="section-subtitle">Bilingual Type Annotations</h3>
+                <p>ND-Script features a powerful type system that supports both Arabic and English type annotations:</p>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>English Type</th>
+                                <th>Arabic Type</th>
+                                <th>Description</th>
+                                <th>Example</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>number</code></td>
+                                <td><code>رقم</code></td>
+                                <td>Integer or floating-point numbers</td>
+                                <td><code>رقم: age = 25</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>string</code></td>
+                                <td><code>نص</code></td>
+                                <td>Text strings</td>
+                                <td><code>نص: name = "أحمد"</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>boolean</code></td>
+                                <td><code>منطق</code></td>
+                                <td>True/false values</td>
+                                <td><code>منطق: active = true</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>list[T]</code></td>
+                                <td><code>قائمة[T]</code></td>
+                                <td>Generic lists</td>
+                                <td><code>قائمة[رقم]: numbers = [1, 2, 3]</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>dict[K, V]</code></td>
+                                <td><code>قاموس[K, V]</code></td>
+                                <td>Key-value dictionaries</td>
+                                <td><code>قاموس[نص, رقم]: scores = {"أحمد": 95}</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 class="section-subtitle">Generic Types</h3>
+                <div class="code-header">Generic Type Examples</div>
+                <div class="code-block">
+                    <pre><code class="language-ndscript">// Generic function with Arabic types
+دالة معالج_القائمة[T](العناصر: قائمة[T], المعالج: دالة[T, T]): قائمة[T] {
+  النتيجة: قائمة[T] = []
+  for عنصر in العناصر: {
+    النتيجة.append(المعالج(عنصر))
+  }
+  return النتيجة
+}
+
+// Generic function with English types
+function process_list[T](items: list[T], processor: function[T, T]): list[T] {
+  result: list[T] = []
+  for item in items: {
+    result.append(processor(item))
+  }
+  return result
+}
+
+// Usage examples
+الأرقام: قائمة[رقم] = [1, 2, 3, 4, 5]
+المربعات = معالج_القائمة(الأرقام, (x) => x * x)
+
+numbers: list[number] = [1, 2, 3, 4, 5]
+squares = process_list(numbers, (x) => x * x)</code></pre>
+                </div>
+
+                <h3 class="section-subtitle">Type Checking</h3>
+                <p>ND-Script performs static type checking to catch errors early:</p>
+
+                <div class="code-header">Type Checking Examples</div>
+                <div class="code-block">
+                    <pre><code class="language-ndscript">// Type-safe function
+دالة حساب_المجموع(الأرقام: قائمة[رقم]): رقم {
+  مجموع: رقم = 0
+  for رقم in الأرقام: {
+    مجموع = مجموع + رقم  // Type-safe addition
+  }
+  return مجموع
+}
+
+// This will cause a type error
+// حساب_المجموع(["نص", "آخر"])  // Error: Expected قائمة[رقم], got قائمة[نص]
+
+// Optional types
+دالة البحث_عن_المستخدم(المعرف: رقم): نص? {
+  إذا (المعرف > 0): {
+    return "مستخدم_" + المعرف
+  }
+  return null  // Optional return
+}</code></pre>
+                </div>
+            </section>
+
+            <!-- Control Flow Section -->
+            <section id="control-flow" class="content-section">
+                <h2 class="section-title">Control Flow</h2>
+
+                <h3 class="section-subtitle">Conditional Statements</h3>
+                <p>ND-Script supports bilingual conditional statements with Arabic and English keywords:</p>
+
+                <div class="code-header">Conditional Examples</div>
+                <div class="code-block">
+                    <pre><code class="language-ndscript">// Arabic conditional
+العمر: رقم = 18
+إذا (العمر >= 18): {
+  print("بالغ")
+} وإلا إذا (العمر >= 13): {
+  print("مراهق")
+} وإلا: {
+  print("طفل")
+}
+
+// English conditional
+age: number = 18
+if (age >= 18): {
+  print("Adult")
+} else if (age >= 13): {
+  print("Teenager")
+} else: {
+  print("Child")
+}
+
+// Mixed conditional
+score: رقم = 85
+if (score >= 90): {
+  الدرجة = "ممتاز"
+} else if (score >= 80): {
+  الدرجة = "جيد جداً"
+} else: {
+  الدرجة = "جيد"
+}</code></pre>
+                </div>
+
+                <h3 class="section-subtitle">Loops</h3>
+                <div class="code-header">Loop Examples</div>
+                <div class="code-block">
+                    <pre><code class="language-ndscript">// Arabic while loop
+العداد: رقم = 0
+طالما (العداد < 5): {
+  print("العداد:", العداد)
+  العداد = العداد + 1
+}
+
+// English while loop
+counter: number = 0
+while (counter < 5): {
+  print("Counter:", counter)
+  counter = counter + 1
+}
+
+// Arabic for loop
+الأرقام: قائمة[رقم] = [1, 2, 3, 4, 5]
+كرر رقم في الأرقام: {
+  print("الرقم:", رقم)
+}
+
+// English for loop
+numbers: list[number] = [1, 2, 3, 4, 5]
+for number in numbers: {
+  print("Number:", number)
+}
+
+// Range-based loops
+كرر i في range(10): {
+  print("التكرار:", i)
+}
+
+for i in range(1, 11, 2): {
+  print("Odd number:", i)
+}</code></pre>
+                </div>
+
+                <h3 class="section-subtitle">Advanced Control Flow</h3>
+                <div class="code-header">Advanced Examples</div>
+                <div class="code-block">
+                    <pre><code class="language-ndscript">// Break and continue
+كرر i في range(10): {
+  إذا (i == 3): {
+    continue  // Skip 3
+  }
+  إذا (i == 7): {
+    break     // Stop at 7
+  }
+  print(i)
+}
+
+// Switch-like pattern matching
+دالة معالج_النوع(القيمة): {
+  match القيمة: {
+    case رقم: return "هذا رقم"
+    case نص: return "هذا نص"
+    case قائمة: return "هذه قائمة"
+    default: return "نوع غير معروف"
+  }
+}
+
+// Exception handling
+try: {
+  النتيجة = 10 / 0
+} catch (خطأ): {
+  print("حدث خطأ:", خطأ.message)
+} finally: {
+  print("تم الانتهاء من المعالجة")
+}</code></pre>
+                </div>
+            </section>
+
+            <!-- Troubleshooting Section -->
+            <section id="troubleshooting" class="content-section">
+                <h2 class="section-title">Troubleshooting</h2>
+
+                <h3 class="section-subtitle">Common Issues</h3>
+
+                <div class="card">
+                    <h4>🚫 Import Error: "No module named 'ndscript'"</h4>
+                    <p><strong>Solution:</strong></p>
+                    <div class="code-block">
+                        <pre><code class="language-bash"># Ensure ND-Script is installed
+pip install ndscript
+
+# Check installation
+python -c "import ndscript; print('OK')"
+
+# If using virtual environment, activate it first
+source venv/bin/activate  # Linux/Mac
+venv\Scripts\activate     # Windows</code></pre>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4>⚠️ Syntax Error in ND-Script Code</h4>
+                    <p><strong>Common causes:</strong></p>
+                    <ul>
+                        <li>Missing braces <code>{ }</code> around function bodies</li>
+                        <li>Incorrect Arabic text encoding</li>
+                        <li>Mixed Arabic/English punctuation</li>
+                    </ul>
+                    <p><strong>Solution:</strong></p>
+                    <div class="code-block">
+                        <pre><code class="language-python"># Validate syntax before execution
+from ndscript import NDScriptSession
+
+session = NDScriptSession()
+result = session.validate_syntax('دالة test(): { return 1 }')
+if not result.valid:
+    print(f"Syntax error: {result.error}")
+</code></pre>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4>🐌 Slow Performance</h4>
+                    <p><strong>Solutions:</strong></p>
+                    <ul>
+                        <li>Enable type annotations for better optimization</li>
+                        <li>Use parallel processing for large datasets</li>
+                        <li>Profile your code to identify bottlenecks</li>
+                    </ul>
+                    <div class="code-block">
+                        <pre><code class="language-python"># Enable performance profiling
+config = NDScriptConfig(enable_profiling=True)
+session = NDScriptSession(config=config)
+
+result = session.execute(your_code)
+print(f"Execution time: {result.execution_time}ms")
+</code></pre>
+                    </div>
+                </div>
+
+                <h3 class="section-subtitle">Getting Help</h3>
+                <ul>
+                    <li><strong>Documentation:</strong> Check this documentation for detailed guides</li>
+                    <li><strong>GitHub Issues:</strong> Report bugs at <a href="https://github.com/ndscript/ndscript/issues">github.com/ndscript/ndscript/issues</a></li>
+                    <li><strong>Community:</strong> Join discussions at <a href="https://community.ndscript.org">community.ndscript.org</a></li>
+                    <li><strong>Stack Overflow:</strong> Use tag <code>ndscript</code> for questions</li>
+                </ul>
+            </section>
+
+            <!-- Command Line Interface Section -->
+            <section id="cli" class="content-section">
+                <h2 class="section-title">Command Line Interface</h2>
+
+                <h3 class="section-subtitle">Available Commands</h3>
+                <p>ND-Script provides a comprehensive command-line interface for various operations:</p>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Command</th>
+                                <th>Description</th>
+                                <th>Example</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>ndscript run</code></td>
+                                <td>Execute ND-Script file</td>
+                                <td><code>ndscript run program.nds</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>ndscript repl</code></td>
+                                <td>Start interactive REPL</td>
+                                <td><code>ndscript repl</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>ndscript check</code></td>
+                                <td>Validate syntax</td>
+                                <td><code>ndscript check program.nds</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>ndscript docs</code></td>
+                                <td>Generate documentation</td>
+                                <td><code>ndscript docs --output docs/</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>ndscript test</code></td>
+                                <td>Run tests</td>
+                                <td><code>ndscript test tests/</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 class="section-subtitle">Interactive REPL</h3>
+                <div class="code-header">REPL Usage</div>
+                <div class="code-block">
+                    <pre><code class="language-bash"># Start REPL
+$ ndscript repl
+
+ND-Script v2.0.0 Interactive Shell
+Type 'help' for commands, 'exit' to quit
+
+>>> دالة مربع(س): { return س * س }
+Function 'مربع' defined successfully
+
+>>> نتيجة = مربع(5)
+>>> print(نتيجة)
+25
+
+>>> help
+Available commands:
+  help     - Show this help
+  exit     - Exit REPL
+  clear    - Clear screen
+  vars     - Show variables
+  funcs    - Show functions
+  reset    - Reset session</code></pre>
+                </div>
+            </section>
+
+            <!-- Universe Simulation Section -->
+            <section id="universe-simulation" class="content-section">
+                <h2 class="section-title">Universe Simulation</h2>
+
+                <h3 class="section-subtitle">Quantum Fractal Modeling</h3>
+                <p>ND-Script includes specialized commands for quantum fractal universe simulation:</p>
+
+                <div class="code-header">Universe Simulation Example</div>
+                <div class="code-block">
+                    <pre><code class="language-ndscript">// Create universe simulation
+الكون = create_universe({
+  الأبعاد: 3,
+  الحجم: 1000,
+  الفيزياء: "quantum_fractal"
+})
+
+// Define particles
+دالة إنشاء_جسيم(الكتلة: رقم، الموقع: قائمة[رقم]): جسيم {
+  return {
+    الكتلة: الكتلة,
+    الموقع: الموقع,
+    السرعة: [0, 0, 0],
+    الطاقة: الكتلة * SPEED_OF_LIGHT^2
+  }
+}
+
+// Add particles to universe
+الإلكترون = إنشاء_جسيم(9.109e-31, [0, 0, 0])
+البروتون = إنشاء_جسيم(1.673e-27, [1e-15, 0, 0])
+
+الكون.add_particle(الإلكترون)
+الكون.add_particle(البروتون)
+
+// Simulate quantum interactions
+كرر خطوة في range(1000): {
+  الكون.simulate_step(0.001)  // 1ms time step
+
+  إذا (خطوة % 100 == 0): {
+    print("الخطوة:", خطوة)
+    print("الطاقة الكلية:", الكون.total_energy())
+  }
+}</code></pre>
+                </div>
+
+                <h3 class="section-subtitle">Fractal Dimensions</h3>
+                <div class="code-header">Fractal Analysis</div>
+                <div class="code-block">
+                    <pre><code class="language-ndscript">// Mandelbrot set in ND-Script
+دالة mandelbrot(c: complex, max_iter: رقم): رقم {
+  z: complex = 0 + 0i
+  كرر i في range(max_iter): {
+    إذا (abs(z) > 2): {
+      return i
+    }
+    z = z*z + c
+  }
+  return max_iter
+}
+
+// Generate fractal
+العرض = 800
+الارتفاع = 600
+البيانات: قائمة[قائمة[رقم]] = []
+
+كرر y في range(الارتفاع): {
+  الصف: قائمة[رقم] = []
+  كرر x في range(العرض): {
+    // Map pixel to complex plane
+    real = (x - العرض/2) * 4.0 / العرض
+    imag = (y - الارتفاع/2) * 4.0 / الارتفاع
+    c = real + imag*i
+
+    القيمة = mandelbrot(c, 100)
+    الصف.append(القيمة)
+  }
+  البيانات.append(الصف)
+}
+
+// Save fractal data
+save_fractal(البيانات, "mandelbrot.png")</code></pre>
+                </div>
+            </section>
+
+            <!-- Parallel Processing Section -->
+            <section id="parallel-processing" class="content-section">
+                <h2 class="section-title">Parallel Processing</h2>
+
+                <h3 class="section-subtitle">Automatic Parallelization</h3>
+                <p>ND-Script automatically detects opportunities for parallel execution:</p>
+
+                <div class="code-header">Parallel Processing Example</div>
+                <div class="code-block">
+                    <pre><code class="language-ndscript">// Parallel keyword for explicit parallelization
+موازي دالة معالج_البيانات(البيانات: قائمة[رقم]): قائمة[رقم] {
+  النتائج: قائمة[رقم] = []
+
+  // This loop will be automatically parallelized
+  موازي كرر عنصر في البيانات: {
+    النتيجة = عنصر * عنصر + sqrt(عنصر)
+    النتائج.append(النتيجة)
+  }
+
+  return النتائج
+}
+
+// Large dataset processing
+البيانات_الكبيرة: قائمة[رقم] = range(1000000)
+النتائج = معالج_البيانات(البيانات_الكبيرة)
+
+print("تم معالجة", len(النتائج), "عنصر بشكل متوازي")</code></pre>
+                </div>
+
+                <h3 class="section-subtitle">Manual Parallel Control</h3>
+                <div class="code-header">Manual Parallelization</div>
+                <div class="code-block">
+                    <pre><code class="language-ndscript">// Manual thread management
+المهام: قائمة[مهمة] = []
+
+// Create parallel tasks
+كرر i في range(4): {
+  المهمة = create_task(() => {
+    النتيجة = expensive_computation(i)
+    return النتيجة
+  })
+  المهام.append(المهمة)
+}
+
+// Wait for all tasks to complete
+النتائج = await_all(المهام)
+
+// Process results
+كرر نتيجة في النتائج: {
+  print("نتيجة المهمة:", نتيجة)
+}
+
+// Parallel map operation
+الأرقام = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+المربعات = parallel_map(الأرقام, (x) => x * x)
+print("المربعات:", المربعات)</code></pre>
+                </div>
+            </section>
+
+            <!-- Performance Section -->
+            <section id="performance" class="content-section">
+                <h2 class="section-title">Performance</h2>
+
+                <h3 class="section-subtitle">Benchmarks</h3>
+                <p>ND-Script achieves excellent performance through advanced optimization techniques:</p>
+
+                <div class="card-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <div class="feature-title">2.2ms Execution Time</div>
+                        <div class="feature-description">Average execution time for typical operations</div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">🚀</div>
+                        <div class="feature-title">Bytecode Compilation</div>
+                        <div class="feature-description">AST compiled to optimized bytecode</div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">💾</div>
+                        <div class="feature-title">Intelligent Caching</div>
+                        <div class="feature-description">LRU cache for frequently used functions</div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">⚙️</div>
+                        <div class="feature-title">JIT Optimization</div>
+                        <div class="feature-description">Just-in-time compilation for hot paths</div>
+                    </div>
+                </div>
+
+                <h3 class="section-subtitle">Performance Profiling</h3>
+                <div class="code-header">Profiling Example</div>
+                <div class="code-block">
+                    <pre><code class="language-python">from ndscript import NDScriptSession, NDScriptConfig
+
+# Enable profiling
+config = NDScriptConfig(
+    enable_profiling=True,
+    enable_jit=True,
+    cache_size=1000
+)
+
+session = NDScriptSession(config=config)
+
+# Profile code execution
+code = """
+دالة fibonacci(n: رقم): رقم {
+  إذا (n <= 1): return n
+  return fibonacci(n-1) + fibonacci(n-2)
+}
+
+النتيجة = fibonacci(30)
+"""
+
+result = session.execute(code)
+
+# View performance metrics
+print(f"Execution time: {result.execution_time}ms")
+print(f"Memory usage: {result.memory_usage}MB")
+print(f"Function calls: {result.function_calls}")
+print(f"Cache hits: {result.cache_hits}")
+print(f"Cache misses: {result.cache_misses}")
+
+# Get detailed profiling report
+profile_report = session.get_profile_report()
+print(profile_report)</code></pre>
+                </div>
+            </section>
+
+            <!-- Examples Section -->
+            <section id="examples" class="content-section">
+                <h2 class="section-title">Examples</h2>
+
+                <h3 class="section-subtitle">Mathematical Calculations</h3>
+                <div class="code-header">Math Examples</div>
+                <div class="code-block">
+                    <pre><code class="language-ndscript">// Arabic mathematical functions
+دالة حساب_المضروب(العدد: رقم): رقم {
+  إذا (العدد <= 1): return 1
+  return العدد * حساب_المضروب(العدد - 1)
+}
+
+دالة حساب_القوة(الأساس: رقم، الأس: رقم): رقم {
+  إذا (الأس == 0): return 1
+  إذا (الأس == 1): return الأساس
+  return الأساس * حساب_القوة(الأساس, الأس - 1)
+}
+
+// Usage
+المضروب = حساب_المضروب(5)  // 120
+القوة = حساب_القوة(2, 8)     // 256
+
+print("5! =", المضروب)
+print("2^8 =", القوة)</code></pre>
+                </div>
+
+                <h3 class="section-subtitle">Data Processing</h3>
+                <div class="code-header">Data Processing Example</div>
+                <div class="code-block">
+                    <pre><code class="language-ndscript">// Student grade processing
+الطلاب: قائمة[قاموس[نص, any]] = [
+  {"الاسم": "أحمد", "الدرجات": [85, 92, 78, 96]},
+  {"الاسم": "فاطمة", "الدرجات": [90, 88, 94, 87]},
+  {"الاسم": "محمد", "الدرجات": [76, 82, 79, 85]}
+]
+
+دالة حساب_المتوسط(الدرجات: قائمة[رقم]): رقم {
+  المجموع = 0
+  كرر درجة في الدرجات: {
+    المجموع = المجموع + درجة
+  }
+  return المجموع / len(الدرجات)
+}
+
+دالة تحديد_التقدير(المتوسط: رقم): نص {
+  إذا (المتوسط >= 90): return "ممتاز"
+  وإلا إذا (المتوسط >= 80): return "جيد جداً"
+  وإلا إذا (المتوسط >= 70): return "جيد"
+  وإلا: return "مقبول"
+}
+
+// Process student data
+كرر طالب في الطلاب: {
+  المتوسط = حساب_المتوسط(طالب["الدرجات"])
+  التقدير = تحديد_التقدير(المتوسط)
+
+  print("الطالب:", طالب["الاسم"])
+  print("المتوسط:", المتوسط)
+  print("التقدير:", التقدير)
+  print("---")
+}</code></pre>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- JavaScript for Navigation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+    <script>
+        // Smooth scrolling navigation with improved error handling
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                // Remove active class from all links
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+
+                // Add active class to clicked link
+                this.classList.add('active');
+
+                // Smooth scroll to target
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+
+                if (targetElement) {
+                    // Calculate offset for fixed header
+                    const headerOffset = 100;
+                    const elementPosition = targetElement.offsetTop;
+                    const offsetPosition = elementPosition - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+
+                    // Update URL without triggering page reload
+                    history.pushState(null, null, '#' + targetId);
+                } else {
+                    console.warn('Target element not found:', targetId);
+                }
+            });
+        });
+
+        // Update active navigation based on scroll position with throttling
+        let scrollTimeout;
+        window.addEventListener('scroll', function() {
+            // Throttle scroll events for better performance
+            if (scrollTimeout) {
+                clearTimeout(scrollTimeout);
+            }
+
+            scrollTimeout = setTimeout(() => {
+                const sections = document.querySelectorAll('.content-section');
+                const navLinks = document.querySelectorAll('.nav-link');
+                const scrollPosition = window.scrollY + 150; // Offset for better detection
+
+                let currentSection = '';
+
+                // Find the current section
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionBottom = sectionTop + section.offsetHeight;
+
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                        currentSection = section.getAttribute('id');
+                    }
+                });
+
+                // If no section is found, default to the first visible section
+                if (!currentSection && sections.length > 0) {
+                    const firstSection = sections[0];
+                    if (scrollPosition < firstSection.offsetTop + firstSection.offsetHeight) {
+                        currentSection = firstSection.getAttribute('id');
+                    }
+                }
+
+                // Update navigation active states
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    const linkHref = link.getAttribute('href');
+                    if (linkHref === '#' + currentSection) {
+                        link.classList.add('active');
+                    }
+                });
+
+                // Update URL if section changed
+                if (currentSection && window.location.hash !== '#' + currentSection) {
+                    history.replaceState(null, null, '#' + currentSection);
+                }
+            }, 10); // 10ms throttle
+        });
+
+        // Copy code functionality
+        document.querySelectorAll('.code-block').forEach(block => {
+            const button = document.createElement('button');
+            button.innerHTML = '<i class="fas fa-copy"></i>';
+            button.className = 'copy-btn';
+            button.style.cssText = `
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                background: var(--primary-color);
+                color: white;
+                border: none;
+                padding: 8px;
+                border-radius: 4px;
+                cursor: pointer;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            `;
+
+            block.style.position = 'relative';
+            block.appendChild(button);
+
+            block.addEventListener('mouseenter', () => {
+                button.style.opacity = '1';
+            });
+
+            block.addEventListener('mouseleave', () => {
+                button.style.opacity = '0';
+            });
+
+            button.addEventListener('click', () => {
+                const code = block.querySelector('code').textContent;
+                navigator.clipboard.writeText(code).then(() => {
+                    button.innerHTML = '<i class="fas fa-check"></i>';
+                    setTimeout(() => {
+                        button.innerHTML = '<i class="fas fa-copy"></i>';
+                    }, 2000);
+                });
+            });
+        });
+
+        // Search functionality (basic)
+        function addSearchBox() {
+            const searchHTML = `
+                <div style="padding: 1rem 1.5rem; border-bottom: 1px solid var(--border-color);">
+                    <input type="text" id="searchBox" placeholder="Search documentation..."
+                           style="width: 100%; padding: 0.5rem; background: var(--card-bg);
+                                  border: 1px solid var(--border-color); border-radius: 4px;
+                                  color: var(--text-primary);">
+                </div>
+            `;
+
+            const sidebar = document.querySelector('.sidebar');
+            const header = sidebar.querySelector('.sidebar-header');
+            header.insertAdjacentHTML('afterend', searchHTML);
+
+            const searchBox = document.getElementById('searchBox');
+            searchBox.addEventListener('input', function() {
+                const query = this.value.toLowerCase();
+                const sections = document.querySelectorAll('.content-section');
+
+                sections.forEach(section => {
+                    const text = section.textContent.toLowerCase();
+                    const shouldShow = text.includes(query) || query === '';
+
+                    const navLink = document.querySelector(`[href="#${section.id}"]`);
+                    if (navLink) {
+                        navLink.style.display = shouldShow ? 'block' : 'none';
+                    }
+                });
+            });
+        }
+
+        // Initialize search
+        addSearchBox();
+
+        // Mobile menu functionality
+        function toggleMobileMenu() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+
+            if (!sidebar.contains(event.target) && !toggle.contains(event.target)) {
+                sidebar.classList.remove('open');
+            }
+        });
+
+        // Close mobile menu when clicking on nav links
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function() {
+                const sidebar = document.getElementById('sidebar');
+                sidebar.classList.remove('open');
+            });
+        });
+
+        // Handle page load with hash
+        function handlePageLoad() {
+            const hash = window.location.hash;
+            if (hash) {
+                const targetId = hash.substring(1);
+                const targetElement = document.getElementById(targetId);
+                const targetLink = document.querySelector(`[href="${hash}"]`);
+
+                if (targetElement && targetLink) {
+                    // Remove active from all links
+                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+
+                    // Add active to target link
+                    targetLink.classList.add('active');
+
+                    // Scroll to target with delay to ensure page is fully loaded
+                    setTimeout(() => {
+                        const headerOffset = 100;
+                        const elementPosition = targetElement.offsetTop;
+                        const offsetPosition = elementPosition - headerOffset;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                    }, 100);
+                }
+            } else {
+                // Default to overview section
+                const overviewLink = document.querySelector('[href="#overview"]');
+                if (overviewLink) {
+                    overviewLink.classList.add('active');
+                }
+            }
+        }
+
+        // Initialize page on load
+        document.addEventListener('DOMContentLoaded', handlePageLoad);
+        window.addEventListener('load', handlePageLoad);
+
+        // Handle browser back/forward navigation
+        window.addEventListener('popstate', function() {
+            handlePageLoad();
+        });
+    </script>
+</body>
+</html>

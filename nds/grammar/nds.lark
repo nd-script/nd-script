@@ -1,0 +1,181 @@
+// ND-Script Grammar Definition - Enhanced Version with Advanced Constructs
+// Supports Arabic and English keywords for quantum fractal universe simulation
+// Extended with Functions, Imports, and Macros
+
+start: statement*
+
+// Statements
+statement: command
+         | assignment
+         | if_statement
+         | while_statement
+         | for_statement
+         | parallel_for_statement
+         | break_statement
+         | continue_statement
+         | return_statement
+         | function_def
+         | import_stmt
+         | macro_def
+         | function_call
+         | debug_statement
+         | profile_block
+         | comment
+
+// Commands
+command: init_command
+       | evolve_command
+       | show_command
+       | set_command
+       | save_command
+       | load_command
+       | exit_command
+
+// Initialization Commands
+init_command: ("تهيئة" | "init") init_params?
+init_params: ("عمق" | "depth") "=" expression
+           | ("حجم" | "size") "=" expression
+           | ("أبعاد" | "dimensions") "=" expression
+
+// Evolution Commands
+evolve_command: ("تطور" | "evolve") expression?
+
+// Display Commands
+show_command: ("عرض" | "show") show_target
+show_target: ("كثافة" | "density")
+           | ("طاقة" | "energy")
+           | ("حالة" | "state")
+           | ("إحصائيات" | "stats")
+           | ("رسم" | "plot")
+           | ("تحليل" | "analysis")
+           | ("الحالة")
+           | ("إحصائيات")
+           | expression
+
+// Parameter Setting
+set_command: ("ضبط" | "set") parameter "=" expression
+parameter: ("عدم_انتظام" | "irregularity")
+         | ("عتبة_انهيار" | "collapse_threshold")
+         | ("جاذبية" | "gravity")
+         | ("كتلة" | "mass")
+         | ("طاقة_كمية" | "quantum_energy")
+         | IDENTIFIER
+
+// File Operations
+save_command: ("حفظ" | "save") expression
+load_command: ("تحميل" | "load") expression
+
+// Exit Command
+exit_command: ("خروج" | "exit")
+
+// Function Definition with Type Annotations
+function_def: ("دالة" | "function") IDENTIFIER "(" param_list? ")" return_type? ":" "{" statement* "}"
+            | ("دالة" | "function") IDENTIFIER "(" param_list? ")" "{" statement* "}"
+
+// Import Statements (enhanced with namespace and selective imports)
+import_stmt: simple_import | namespace_import | selective_import
+
+simple_import: ("استيراد" | "import") STRING
+namespace_import: ("استيراد" | "import") STRING ("كـ" | "as") IDENTIFIER
+selective_import: ("من" | "from") STRING ("استيراد" | "import") import_list
+
+import_list: IDENTIFIER (("," | "،") IDENTIFIER)*
+
+// Macro Definition (simplified - using braces instead of indentation)
+macro_def: ("ماكرو" | "macro") IDENTIFIER "(" param_list? ")" ":" "{" statement* "}"
+
+// Parameter Lists (unified)
+param_list: param (("," | "،") param)*
+param: IDENTIFIER type_annotation?
+
+// Type System
+type_annotation: ":" type_name
+return_type: ":" type_name
+type_name: arabic_type | english_type | generic_type
+
+// Bilingual Type Names
+arabic_type: "رقم" | "نص" | "منطق" | "قائمة" | "كائن" | "فراغ"
+english_type: "number" | "string" | "boolean" | "list" | "object" | "void"
+generic_type: ("قائمة" | "list") "[" type_name "]"
+
+// Assignment (with optional type annotation)
+assignment: IDENTIFIER type_annotation? "=" expression
+
+// Enhanced Control Flow Structures
+if_statement: ("إذا" | "if") "(" condition ")" ":" statement_block elif_blocks? else_block?
+
+elif_blocks: elif_block+
+elif_block: ("وإلا_إذا" | "elif") "(" condition ")" ":" statement_block
+
+else_block: ("وإلا" | "else") ":" statement_block
+
+while_statement: ("طالما" | "while") "(" condition ")" ":" statement_block
+
+for_statement: ("كرر" | "for") IDENTIFIER ("في" | "in") range_expr ":" statement_block
+parallel_for_statement: ("موازي" | "parallel") ("كرر" | "for") IDENTIFIER ("في" | "in") range_expr ":" statement_block
+
+break_statement: ("توقف" | "break")
+continue_statement: ("استمر" | "continue")
+return_statement: ("إرجاع" | "return") expression?
+
+// Debug and Profiling Statements
+debug_statement: ("تشخيص" | "debug") "(" STRING? ")"
+profile_block: ("تحليل_أداء" | "profile") ":" statement_block
+
+statement_block: "{" statement* "}"
+
+// Conditions
+condition: expression comparison_op expression
+         | expression
+
+comparison_op: "==" | "!=" | "<" | ">" | "<=" | ">="
+
+// Range Expression (enhanced with expressions)
+range_expr: "(" expression "," expression ")"
+          | "(" expression "," expression "," expression ")"
+
+// Expressions
+expression: term
+          | expression add_op term
+
+term: factor
+    | term mul_op factor
+
+// Operators as separate rules to capture them
+add_op: PLUS | MINUS
+mul_op: TIMES | DIVIDE | MODULO
+
+// Operator tokens
+PLUS: "+"
+MINUS: "-"
+TIMES: "*"
+DIVIDE: "/"
+MODULO: "%"
+
+factor: NUMBER
+      | STRING
+      | "(" expression ")"
+      | "-" factor
+      | function_call
+      | IDENTIFIER
+
+// Function Calls (includes both user-defined functions and macros)
+function_call: IDENTIFIER "(" arg_list? ")"
+arg_list: expression (("," | "،") expression)*
+
+// Comments
+comment: "//" /[^\r\n]+/
+
+// Tokens (order matters - more specific tokens first)
+// IDENTIFIER regex explicitly excludes Arabic comma (U+060C) to prevent conflicts
+IDENTIFIER: /[a-zA-Z_\u0600-\u060B\u060D-\u06FF][a-zA-Z0-9_\u0600-\u060B\u060D-\u06FF]*/
+NUMBER: /\d+(\.\d+)?/
+STRING: /"[^"]*"/ | /'[^']*'/
+
+// Multi-line comments
+MULTILINE_COMMENT: /\/\*(.|\n)*?\*\//
+
+// Whitespace
+%import common.WS
+%ignore WS
+%ignore MULTILINE_COMMENT

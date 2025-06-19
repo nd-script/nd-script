@@ -1,0 +1,24 @@
+// Basic ND-Script Example
+// تهيئة محاكاة أساسية للكون الكسري الكمي
+
+// Initialize universe with specific parameters
+تهيئة حجم=100
+
+// Set physics parameters
+ضبط عدم_انتظام=0.1
+ضبط جاذبية=0.5
+ضبط عتبة_انهيار=0.8
+
+// Show initial state
+عرض حالة
+عرض إحصائيات
+
+// Evolve the universe
+تطور 10
+
+// Display results
+عرض كثافة
+عرض طاقة
+
+// Save the simulation state
+حفظ "basic_simulation_result.nds"

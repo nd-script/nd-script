@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html dir="auto" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ND-Script Interactive Playground | ملعب ND-Script التفاعلي</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 70vh;
+        }
+
+        .editor-panel {
+            border-right: 2px solid #e0e0e0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .output-panel {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-header {
+            background: #f5f5f5;
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .code-editor {
+            flex: 1;
+            border: none;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            resize: none;
+            outline: none;
+            background: #fafafa;
+            line-height: 1.5;
+        }
+
+        .output-area {
+            flex: 1;
+            padding: 20px;
+            background: #f8f9fa;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            white-space: pre-wrap;
+        }
+
+        .controls {
+            padding: 20px;
+            background: #f0f0f0;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #45a049;
+        }
+
+        .btn-secondary {
+            background: #2196F3;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #1976D2;
+        }
+
+        .btn-warning {
+            background: #FF9800;
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background: #F57C00;
+        }
+
+        .examples-dropdown {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: white;
+        }
+
+        .status-bar {
+            background: #333;
+            color: white;
+            padding: 10px 20px;
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .success {
+            color: #4CAF50;
+        }
+
+        .error {
+            color: #f44336;
+        }
+
+        .info {
+            color: #2196F3;
+        }
+
+        .language-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                grid-template-rows: 1fr 1fr;
+            }
+            
+            .editor-panel {
+                border-right: none;
+                border-bottom: 2px solid #e0e0e0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="language-toggle" onclick="toggleLanguage()">عربي / English</button>
+            <h1 id="title">🚀 ND-Script Interactive Playground</h1>
+            <p id="subtitle">Bilingual Domain-Specific Language for Quantum Fractal Universe Simulation</p>
+        </div>
+
+        <div class="main-content">
+            <div class="editor-panel">
+                <div class="panel-header">
+                    <span id="editor-title">📝 Code Editor</span>
+                    <select class="examples-dropdown" id="examples" onchange="loadExample()">
+                        <option value="">Select Example / اختر مثال</option>
+                        <option value="basic">Basic Operations / العمليات الأساسية</option>
+                        <option value="functions">Functions / الدوال</option>
+                        <option value="loops">Loops / الحلقات</option>
+                        <option value="parallel">Parallel Processing / المعالجة المتوازية</option>
+                        <option value="universe">Universe Simulation / محاكاة الكون</option>
+                    </select>
+                </div>
+                <textarea class="code-editor" id="codeEditor" placeholder="Write your ND-Script code here...
+اكتب كود ND-Script هنا...
+
+Example / مثال:
+x = 10
+y = x * 2
+تهيئة حجم=100
+ضبط جاذبية=0.8"></textarea>
+            </div>
+
+            <div class="output-panel">
+                <div class="panel-header">
+                    <span id="output-title">📤 Output</span>
+                    <span id="execution-time"></span>
+                </div>
+                <div class="output-area" id="output">
+                    <div class="info">Welcome to ND-Script Playground! 🎉
+مرحباً بك في ملعب ND-Script! 🎉
+
+Write your code in the editor and click "Run" to execute.
+اكتب الكود في المحرر واضغط "تشغيل" للتنفيذ.
+
+Features / الميزات:
+• Bilingual syntax (Arabic/English) / نحو ثنائي اللغة
+• Real-time execution / تنفيذ فوري
+• Type checking / فحص الأنواع
+• Performance metrics / مقاييس الأداء
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-primary" onclick="runCode()" id="run-btn">▶️ Run / تشغيل</button>
+            <button class="btn btn-secondary" onclick="clearEditor()" id="clear-btn">🗑️ Clear / مسح</button>
+            <button class="btn btn-warning" onclick="formatCode()" id="format-btn">📐 Format / تنسيق</button>
+            <button class="btn btn-secondary" onclick="shareCode()" id="share-btn">🔗 Share / مشاركة</button>
+            <button class="btn btn-secondary" onclick="downloadCode()" id="download-btn">💾 Download / تحميل</button>
+        </div>
+
+        <div class="status-bar">
+            <span id="status">Ready / جاهز</span>
+            <span id="stats">Lines: 0 | Characters: 0</span>
+        </div>
+    </div>
+
+    <script>
+        // Global state
+        let currentLanguage = 'en';
+        let executionCount = 0;
+
+        // Language translations
+        const translations = {
+            en: {
+                title: "🚀 ND-Script Interactive Playground",
+                subtitle: "Bilingual Domain-Specific Language for Quantum Fractal Universe Simulation",
+                editorTitle: "📝 Code Editor",
+                outputTitle: "📤 Output",
+                runBtn: "▶️ Run",
+                clearBtn: "🗑️ Clear",
+                formatBtn: "📐 Format",
+                shareBtn: "🔗 Share",
+                downloadBtn: "💾 Download",
+                status: "Ready"
+            },
+            ar: {
+                title: "🚀 ملعب ND-Script التفاعلي",
+                subtitle: "لغة برمجة ثنائية اللغة لمحاكاة الكون الكمي الكسيري",
+                editorTitle: "📝 محرر الكود",
+                outputTitle: "📤 المخرجات",
+                runBtn: "▶️ تشغيل",
+                clearBtn: "🗑️ مسح",
+                formatBtn: "📐 تنسيق",
+                shareBtn: "🔗 مشاركة",
+                downloadBtn: "💾 تحميل",
+                status: "جاهز"
+            }
+        };
+
+        // Example codes
+        const examples = {
+            basic: `// Basic Operations / العمليات الأساسية
+x = 10
+y = 20
+result = x + y
+print("Result:", result)
+
+// Arabic variables / متغيرات عربية
+العدد = 42
+النتيجة = العدد * 2`,
+
+            functions: `// Function Definition / تعريف الدالة
+function square(x): {
+    return x * x
+}
+
+// Arabic Function / دالة عربية
+دالة مربع(س): {
+    return س * س
+}
+
+// Function Calls / استدعاء الدوال
+result1 = square(5)
+نتيجة2 = مربع(7)`,
+
+            loops: `// For Loop / حلقة for
+for i in (1, 5): {
+    print("Number:", i)
+}
+
+// Arabic Loop / حلقة عربية
+كرر ع في (1, 3): {
+    print("العدد:", ع)
+}
+
+// While Loop / حلقة while
+x = 0
+while (x < 3): {
+    x = x + 1
+    print("Count:", x)
+}`,
+
+            parallel: `// Parallel Processing / المعالجة المتوازية
+parallel for i in (1, 10): {
+    result = i * i
+    print("Square of", i, "is", result)
+}
+
+// Arabic Parallel / متوازي عربي
+موازي كرر ع في (1, 5): {
+    النتيجة = ع * ع * ع
+    print("مكعب", ع, "هو", النتيجة)
+}`,
+
+            universe: `// Universe Simulation / محاكاة الكون
+تهيئة حجم=100
+ضبط جاذبية=0.8
+ضبط عدم_انتظام=0.1
+
+// Evolution / التطور
+تطور 5
+عرض الحالة
+
+// English Commands
+init size=200
+set gravity=0.9
+evolve 3
+show state`
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStats();
+            document.getElementById('codeEditor').addEventListener('input', updateStats);
+        });
+
+        function toggleLanguage() {
+            currentLanguage = currentLanguage === 'en' ? 'ar' : 'en';
+            updateUI();
+        }
+
+        function updateUI() {
+            const t = translations[currentLanguage];
+            document.getElementById('title').textContent = t.title;
+            document.getElementById('subtitle').textContent = t.subtitle;
+            document.getElementById('editor-title').textContent = t.editorTitle;
+            document.getElementById('output-title').textContent = t.outputTitle;
+            document.getElementById('run-btn').textContent = t.runBtn;
+            document.getElementById('clear-btn').textContent = t.clearBtn;
+            document.getElementById('format-btn').textContent = t.formatBtn;
+            document.getElementById('share-btn').textContent = t.shareBtn;
+            document.getElementById('download-btn').textContent = t.downloadBtn;
+            document.getElementById('status').textContent = t.status;
+            
+            // Update direction
+            document.documentElement.dir = currentLanguage === 'ar' ? 'rtl' : 'ltr';
+        }
+
+        function loadExample() {
+            const select = document.getElementById('examples');
+            const exampleKey = select.value;
+            if (exampleKey && examples[exampleKey]) {
+                document.getElementById('codeEditor').value = examples[exampleKey];
+                updateStats();
+            }
+        }
+
+        function runCode() {
+            const code = document.getElementById('codeEditor').value;
+            const output = document.getElementById('output');
+            const status = document.getElementById('status');
+            const executionTime = document.getElementById('execution-time');
+            
+            if (!code.trim()) {
+                output.innerHTML = '<div class="error">❌ No code to execute / لا يوجد كود للتنفيذ</div>';
+                return;
+            }
+
+            executionCount++;
+            const startTime = performance.now();
+            
+            status.textContent = currentLanguage === 'ar' ? 'جاري التنفيذ...' : 'Executing...';
+            
+            // Simulate code execution (in real implementation, this would call the ND-Script API)
+            setTimeout(() => {
+                const endTime = performance.now();
+                const duration = (endTime - startTime).toFixed(2);
+                
+                // Mock execution result
+                const result = simulateExecution(code);
+                
+                output.innerHTML = `<div class="success">✅ Execution #${executionCount} completed successfully!</div>
+<div class="info">⏱️ Execution time: ${duration}ms</div>
+<div class="info">📊 Code analysis:</div>
+${result}`;
+                
+                status.textContent = currentLanguage === 'ar' ? 'مكتمل' : 'Completed';
+                executionTime.textContent = `⏱️ ${duration}ms`;
+            }, 100 + Math.random() * 200);
+        }
+
+        function simulateExecution(code) {
+            // Simple simulation of ND-Script execution
+            let output = '';
+            const lines = code.split('\n').filter(line => line.trim());
+            
+            lines.forEach((line, index) => {
+                line = line.trim();
+                if (line.startsWith('//')) return;
+                
+                if (line.includes('=') && !line.includes('==')) {
+                    const [variable, value] = line.split('=').map(s => s.trim());
+                    output += `📝 Variable assigned: ${variable} = ${value}\n`;
+                } else if (line.includes('print')) {
+                    output += `🖨️ Output: ${line}\n`;
+                } else if (line.includes('تهيئة') || line.includes('init')) {
+                    output += `🌌 Universe initialized\n`;
+                } else if (line.includes('ضبط') || line.includes('set')) {
+                    output += `⚙️ Parameter set: ${line}\n`;
+                } else if (line.includes('تطور') || line.includes('evolve')) {
+                    output += `🔄 Universe evolved\n`;
+                } else if (line.includes('for') || line.includes('كرر')) {
+                    output += `🔁 Loop executed\n`;
+                } else if (line.includes('function') || line.includes('دالة')) {
+                    output += `🔧 Function defined\n`;
+                } else {
+                    output += `✨ Statement executed: ${line}\n`;
+                }
+            });
+            
+            return output || '✨ Code executed successfully!';
+        }
+
+        function clearEditor() {
+            document.getElementById('codeEditor').value = '';
+            document.getElementById('output').innerHTML = '<div class="info">Editor cleared / تم مسح المحرر</div>';
+            updateStats();
+        }
+
+        function formatCode() {
+            const editor = document.getElementById('codeEditor');
+            let code = editor.value;
+            
+            // Simple formatting
+            const lines = code.split('\n');
+            let formatted = '';
+            let indentLevel = 0;
+            
+            lines.forEach(line => {
+                const trimmed = line.trim();
+                if (!trimmed) {
+                    formatted += '\n';
+                    return;
+                }
+                
+                if (trimmed.includes('}')) {
+                    indentLevel = Math.max(0, indentLevel - 1);
+                }
+                
+                formatted += '    '.repeat(indentLevel) + trimmed + '\n';
+                
+                if (trimmed.includes('{')) {
+                    indentLevel++;
+                }
+            });
+            
+            editor.value = formatted;
+            document.getElementById('output').innerHTML = '<div class="success">✅ Code formatted / تم تنسيق الكود</div>';
+        }
+
+        function shareCode() {
+            const code = document.getElementById('codeEditor').value;
+            if (navigator.share) {
+                navigator.share({
+                    title: 'ND-Script Code',
+                    text: code
+                });
+            } else {
+                navigator.clipboard.writeText(code).then(() => {
+                    document.getElementById('output').innerHTML = '<div class="success">✅ Code copied to clipboard / تم نسخ الكود</div>';
+                });
+            }
+        }
+
+        function downloadCode() {
+            const code = document.getElementById('codeEditor').value;
+            const blob = new Blob([code], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'ndscript_code.nds';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function updateStats() {
+            const code = document.getElementById('codeEditor').value;
+            const lines = code.split('\n').length;
+            const chars = code.length;
+            document.getElementById('stats').textContent = `Lines: ${lines} | Characters: ${chars}`;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,342 @@
+// أمثلة شاملة لهياكل التحكم في التدفق في ND-Script
+// Comprehensive Examples of Control Flow Structures in ND-Script
+// @version 2.0.0
+// ================================================================
+
+// المثال الأول: جمل الشرط البسيطة
+// Example 1: Simple Conditional Statements
+// =======================================
+
+// جملة if بسيطة - عربي
+// Simple if statement - Arabic
+إذا (100 > 50): {
+    تهيئة حجم=200
+    ضبط جاذبية=0.7
+}
+
+// جملة if بسيطة - إنجليزي
+// Simple if statement - English
+if (200 > 100): {
+    init size=300
+    set gravity=0.8
+}
+
+// المثال الثاني: جمل if-else
+// Example 2: If-Else Statements
+// =============================
+
+// if-else عربي
+// Arabic if-else
+إذا (حجم_الكون < 100): {
+    تهيئة حجم=150
+    عرض حالة
+} وإلا: {
+    تهيئة حجم=50
+    عرض كثافة
+}
+
+// if-else إنجليزي
+// English if-else
+if (universe_size > 500): {
+    init size=1000
+    show energy
+} else: {
+    init size=250
+    show stats
+}
+
+// المثال الثالث: جمل if-elif-else المعقدة
+// Example 3: Complex If-Elif-Else Statements
+// ==========================================
+
+// سلسلة شروط معقدة - عربي
+// Complex conditional chain - Arabic
+إذا (الطاقة < 10): {
+    ضبط طاقة_كمية=5.0
+    عرض "طاقة منخفضة"
+} وإلا_إذا (الطاقة < 50): {
+    ضبط طاقة_كمية=25.0
+    عرض "طاقة متوسطة"
+} وإلا_إذا (الطاقة < 100): {
+    ضبط طاقة_كمية=75.0
+    عرض "طاقة عالية"
+} وإلا: {
+    ضبط طاقة_كمية=100.0
+    عرض "طاقة قصوى"
+}
+
+// سلسلة شروط معقدة - إنجليزي
+// Complex conditional chain - English
+if (density < 0.1): {
+    set irregularity=0.05
+    show "Low density universe"
+} elif (density < 0.5): {
+    set irregularity=0.25
+    show "Medium density universe"
+} elif (density < 0.9): {
+    set irregularity=0.75
+    show "High density universe"
+} else: {
+    set irregularity=1.0
+    show "Maximum density universe"
+}
+
+// المثال الرابع: حلقات while
+// Example 4: While Loops
+// ======================
+
+// حلقة while بسيطة - عربي
+// Simple while loop - Arabic
+تهيئة حجم=10
+طالما (حجم < 100): {
+    تطور 5
+    ضبط حجم=حجم*1.2
+    عرض حالة
+}
+
+// حلقة while بسيطة - إنجليزي
+// Simple while loop - English
+init size=20
+while (size < 200): {
+    evolve 10
+    set size=size*1.5
+    show state
+}
+
+// المثال الخامس: حلقات for
+// Example 5: For Loops
+// ====================
+
+// حلقة for بسيطة - عربي
+// Simple for loop - Arabic
+كرر i في (1, 10): {
+    تهيئة حجم=i*50
+    تطور i*2
+    عرض إحصائيات
+}
+
+// حلقة for بخطوة مخصصة - عربي
+// For loop with custom step - Arabic
+كرر j في (0, 100, 10): {
+    ضبط جاذبية=j/100.0
+    تطور 5
+    حفظ "تجربة_" + j + ".nds"
+}
+
+// حلقة for بسيطة - إنجليزي
+// Simple for loop - English
+for k in (1, 15): {
+    init size=k*30
+    evolve k*3
+    show analysis
+}
+
+// المثال السادس: التحكم في الحلقات (break/continue)
+// Example 6: Loop Control (break/continue)
+// ========================================
+
+// استخدام break - عربي
+// Using break - Arabic
+كرر i في (1, 1000): {
+    تهيئة حجم=i*10
+    إذا (حجم > 500): {
+        عرض "وصلنا للحد الأقصى"
+        توقف
+    }
+    تطور 3
+}
+
+// استخدام continue - عربي
+// Using continue - Arabic
+كرر j في (1, 20): {
+    إذا (j % 2 == 0): {
+        استمر  // تخطي الأرقام الزوجية
+    }
+    تهيئة حجم=j*25
+    تطور j
+}
+
+// استخدام break - إنجليزي
+// Using break - English
+for m in (1, 100): {
+    init size=m*15
+    if (size > 750): {
+        show "Maximum size reached"
+        break
+    }
+    evolve 2
+}
+
+// استخدام continue - إنجليزي
+// Using continue - English
+for n in (1, 25): {
+    if (n % 3 == 0): {
+        continue  // Skip multiples of 3
+    }
+    init size=n*20
+    evolve n
+}
+
+// المثال السابع: هياكل التحكم المتداخلة
+// Example 7: Nested Control Structures
+// ====================================
+
+// حلقات متداخلة - عربي
+// Nested loops - Arabic
+كرر i في (1, 5): {
+    كرر j في (1, 3): {
+        تهيئة حجم=i*j*50
+        إذا (حجم > 300): {
+            ضبط جاذبية=0.9
+        } وإلا: {
+            ضبط جاذبية=0.3
+        }
+        تطور i+j
+    }
+}
+
+// شروط متداخلة - إنجليزي
+// Nested conditions - English
+if (universe_initialized): {
+    for step in (1, 10): {
+        if (step < 5): {
+            evolve step*2
+            if (energy_level > 50): {
+                set quantum_energy=energy_level*1.5
+            }
+        } else: {
+            evolve step
+            while (density < 0.8): {
+                set irregularity=irregularity+0.1
+                if (irregularity > 1.0): {
+                    break
+                }
+            }
+        }
+    }
+}
+
+// المثال الثامن: ميزات التشخيص والتحليل
+// Example 8: Debugging and Profiling Features
+// ===========================================
+
+// استخدام debug - عربي
+// Using debug - Arabic
+تهيئة حجم=100
+تشخيص("بدء المحاكاة")
+كرر i في (1, 5): {
+    تطور 10
+    تشخيص("خطوة مكتملة")
+    عرض حالة
+}
+
+// استخدام profile - عربي
+// Using profile - Arabic
+تحليل_أداء: {
+    تهيئة حجم=500
+    كرر i في (1, 100): {
+        تطور 5
+        ضبط جاذبية=i/100.0
+    }
+    عرض إحصائيات
+}
+
+// استخدام debug - إنجليزي
+// Using debug - English
+init size=200
+debug("Starting simulation")
+for i in (1, 8): {
+    evolve 15
+    debug("Step completed")
+    show state
+}
+
+// استخدام profile - إنجليزي
+// Using profile - English
+profile: {
+    init size=750
+    for i in (1, 50): {
+        evolve 8
+        set irregularity=i/50.0
+    }
+    show analysis
+}
+
+// المثال التاسع: البرمجة ثنائية اللغة
+// Example 9: Bilingual Programming
+// ================================
+
+// مزج العربية والإنجليزية في نفس البرنامج
+// Mixing Arabic and English in the same program
+تهيئة حجم=100
+if (size > 50): {
+    كرر i في (1, 10): {
+        evolve i*2
+        إذا (i > 5): {
+            set gravity=0.8
+            عرض طاقة
+        } else: {
+            ضبط جاذبية=0.4
+            show density
+        }
+    }
+}
+
+// المثال العاشر: سيناريو محاكاة متقدم
+// Example 10: Advanced Simulation Scenario
+// ========================================
+
+// سيناريو بحث شامل
+// Comprehensive research scenario
+دالة محاكاة_متقدمة(حجم_ابتدائي، خطوات_التطور): {
+    تهيئة حجم=حجم_ابتدائي
+    
+    // مرحلة التهيئة
+    إذا (حجم < 100): {
+        ضبط جاذبية=0.3
+        ضبط عدم_انتظام=0.1
+    } وإلا_إذا (حجم < 500): {
+        ضبط جاذبية=0.6
+        ضبط عدم_انتظام=0.3
+    } وإلا: {
+        ضبط جاذبية=0.9
+        ضبط عدم_انتظام=0.5
+    }
+    
+    // مرحلة التطور
+    تحليل_أداء: {
+        كرر خطوة في (1, خطوات_التطور): {
+            تطور 1
+            
+            // فحص دوري للحالة
+            إذا (خطوة % 10 == 0): {
+                عرض إحصائيات
+                تشخيص("خطوة دورية")
+                
+                // تعديل المعاملات حسب الحاجة
+                إذا (الكثافة > 0.8): {
+                    ضبط عدم_انتظام=عدم_انتظام*0.9
+                } وإلا_إذا (الكثافة < 0.2): {
+                    ضبط عدم_انتظام=عدم_انتظام*1.1
+                }
+            }
+            
+            // شرط الإيقاف المبكر
+            إذا (الطاقة > 1000): {
+                عرض "طاقة عالية جداً - إيقاف المحاكاة"
+                توقف
+            }
+        }
+    }
+    
+    // مرحلة التحليل النهائي
+    عرض تحليل
+    حفظ "نتائج_المحاكاة.nds"
+}
+
+// تشغيل المحاكاة المتقدمة
+// Run advanced simulation
+محاكاة_متقدمة(250, 100)
+
+// نهاية الأمثلة
+// End of Examples
