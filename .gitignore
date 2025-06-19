@@ -430,3 +430,10 @@ deploy_*.py
 !CONTRIBUTING.md
 !PERFORMANCE_REPORT.md
 !FINAL_ACHIEVEMENTS_REPORT.md
+
+# Local deployment files
+GITHUB_DEPLOYMENT_GUIDE.md
+git_commands.sh
+git_commands.ps1
+PRE_DEPLOYMENT_CHECKLIST.md
+LINK_VERIFICATION.md
